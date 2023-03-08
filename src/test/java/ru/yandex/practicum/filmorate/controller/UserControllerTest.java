@@ -23,25 +23,25 @@ class UserControllerTest {
         user.setBirthday(LocalDate.of(1990, 05,15));
     }
     @Test
-    void getUsers() throws ValidationException {
-        userController.createUser(user);
-        assertTrue(userController.getUsers().contains(user), "Пользователи запрашиваются некорректно");
+    void getUsers() {
+        userController.create(user);
+        assertTrue(userController.get().contains(user), "Пользователи запрашиваются некорректно");
     }
 
     @Test
-    void createUser() throws ValidationException {
-        userController.createUser(user);
+    void createUser() {
+        userController.create(user);
         assertEquals(user.getId(), 1);
     }
 
     @Test
-    void updateUser() throws ValidationException {
-        userController.createUser(user);
+    void updateUser() {
+        userController.create(user);
         user.setLogin("UpdateLogin");
         user.setName("UpdateName");
         user.setEmail("UpdatedEmail@email.com");
         user.setBirthday(LocalDate.of(1991,12,22));
-        User user1 = userController.updateUser(user);
+        User user1 = userController.update(user);
         assertEquals(user.getName(), user1.getName(), "Имя пользователя не обновляется");
         assertEquals(user.getLogin(), user1.getLogin(), "Логин пользователя не обновляется");
         assertEquals(user.getEmail(), user1.getEmail(), "Email пользователя не обновляется");
@@ -54,7 +54,7 @@ class UserControllerTest {
                 ValidationException.class,
                 () -> {
                     user.setLogin("updateLogin");
-                    User user1 = userController.updateUser(user);
+                    User user1 = userController.update(user);
                 }
         );
         assertEquals("Пользователь не найден", exception.getMessage(), "Не выбрасывается исключение, когда" +
@@ -67,7 +67,7 @@ class UserControllerTest {
         final ValidationException exception = assertThrows(
                 ValidationException.class,
                 () -> {
-                    userController.createUser(user);
+                    userController.create(user);
                 }
         );
         assertEquals("Логин не может содержать пробелы", exception.getMessage(),

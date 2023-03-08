@@ -40,7 +40,7 @@ public class FilmTest {
         final ValidationException exception = assertThrows(
                 ValidationException.class,
                 () -> {
-                    filmController.addFilm(film);
+                    filmController.add(film);
                 }
         );
         assertEquals("Дата выпуска фильма должна быть после 28-12-1895", exception.getMessage(),

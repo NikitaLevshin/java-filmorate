@@ -15,18 +15,18 @@ import java.util.Map;
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    FilmValidator filmValidator = new FilmValidator();
+    private FilmValidator filmValidator = new FilmValidator();
     private final Map<Integer, Film> films = new HashMap<>();
     private int id = 1;
 
     @GetMapping
-    public Collection<Film> getFilms() {
+    public Collection<Film> get() {
         log.debug("Получаем список всех фильмов");
         return films.values();
     }
 
     @PostMapping
-    public Film addFilm(@Valid @RequestBody Film film) throws ValidationException {
+    public Film add(@Valid @RequestBody Film film) {
         log.debug("Добавляем фильм {}", film.getName());
         filmValidator.filmValidation(film);
         film.setId(id);
@@ -36,8 +36,8 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film updateFilm(@Valid @RequestBody Film film) throws ValidationException {
-        log.debug("Обноваляем фильм {}", film.getName());
+    public Film update(@Valid @RequestBody Film film) {
+        log.debug("Обновляем фильм {}", film.getName());
         if (!films.containsKey(film.getId())) {
             throw new ValidationException("Фильм не найден");
         }

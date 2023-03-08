@@ -23,24 +23,24 @@ class FilmControllerTest {
     }
 
     @Test
-    void getFilms() throws ValidationException {
-        filmController.addFilm(film);
-        assertTrue(filmController.getFilms().contains(film), "Некорректное получение фильмов");
+    void getFilms() {
+        filmController.add(film);
+        assertTrue(filmController.get().contains(film), "Некорректное получение фильмов");
     }
 
     @Test
-    void addFilm() throws ValidationException {
-        filmController.addFilm(film);
+    void addFilm() {
+        filmController.add(film);
         assertEquals(film.getId(), 1, "Фильм не создан");
     }
 
     @Test
-    void updateFilm() throws ValidationException {
-        filmController.addFilm(film);
+    void updateFilm() {
+        filmController.add(film);
         film.setName("Обновленный");
         film.setDuration(75);
         film.setDescription("Обновленное");
-        Film film1 = filmController.updateFilm(film);
+        Film film1 = filmController.update(film);
         assertEquals(film.getName(), film1.getName(), "Не обновилось имя фильма");
         assertEquals(film.getDuration(), film1.getDuration(), "Не обновилась длительность фильма");
         assertEquals(film.getDescription(), film1.getDescription(), "Не обновилось описание фильма");
@@ -52,7 +52,7 @@ class FilmControllerTest {
                 ValidationException.class,
                 () -> {
                     film.setDuration(10);
-                    Film film1 = filmController.updateFilm(film);
+                    Film film1 = filmController.update(film);
                 }
         );
         assertEquals("Фильм не найден", exception.getMessage(), "Не выбрасывается исключение, когда" +

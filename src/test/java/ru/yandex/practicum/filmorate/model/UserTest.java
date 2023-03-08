@@ -59,7 +59,7 @@ public class UserTest {
         final ValidationException exception = assertThrows(
                 ValidationException.class,
                 () -> {
-                    userController.createUser(user);
+                    userController.create(user);
                 }
         );
         assertEquals("Логин не может содержать пробелы", exception.getMessage(),
@@ -67,9 +67,9 @@ public class UserTest {
     }
 
     @Test
-    public void blankUsernameShouldBeLogin() throws ValidationException {
+    public void blankUsernameShouldBeLogin() {
         user.setName("");
-        userController.createUser(user);
+        userController.create(user);
         assertEquals(user.getName(), "testLogin", "Пустое имя не заменяется логином");
     }
 }

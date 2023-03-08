@@ -15,18 +15,18 @@ import java.util.Map;
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-    UserValidator userValidator = new UserValidator();
+    private UserValidator userValidator = new UserValidator();
     private final Map<Integer, User> users = new HashMap<>();
     private int id = 1;
 
     @GetMapping
-    public Collection<User> getUsers() {
+    public Collection<User> get() {
         log.debug("Получаем список всех пользователей");
         return users.values();
     }
 
     @PostMapping
-    public User createUser(@Valid @RequestBody User user) throws ValidationException {
+    public User create(@Valid @RequestBody User user) {
         log.debug("Создаем пользователя {}", user.getLogin());
         userValidator.userValidation(user);
         user.setId(id);
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PutMapping
-    public User updateUser(@Valid @RequestBody User user) throws ValidationException {
+    public User update(@Valid @RequestBody User user) {
         log.debug("Обновляем пользователя {}", user.getLogin());
         if (!users.containsKey(user.getId())) {
             throw new ValidationException("Пользователь не найден");
